@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html id="html" lang="ru" class="svg">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	<link rel="stylesheet" href="./css/wheel.css"> 
+	<link rel="stylesheet" href="./css/main_flat.css"> 
+	<script src="./js/jquery-1.11.1.js" async=""></script>
+	<script src="./js/main.js" async=""></script>
+	<script src="./js/wheel_life.js"></script> 
+	
+	<meta class="foundation-data-attribute-namespace">
+	<meta class="foundation-mq-xxlarge">
+	<meta class="foundation-mq-xlarge">
+	<meta class="foundation-mq-large">
+	<meta class="foundation-mq-medium">
+	<meta class="foundation-mq-small">
+	<meta class="foundation-mq-topbar">
+</head> 
+<body class="site-main" id="body"> 
+	<a id="top"></a> 
+	<header class="header-hide-before-css"> 
+	<div class="contain-to-grid header-navigation"> 
+	<nav class="top-bar" data-topbar=""> 
+	</nav> 
+	</div> 
+	</header> 
+	<main> 
+		<div class="page-wrap"> 
+			<div class="row"> 
+				<div class="small-12 column"> 
+					<h1>Balance wheel</h1> 
+					<div class="wheel-life-container"> 
+						<canvas id="wheel-life" width="1800" height="1200" style="cursor: default;">Update browser</canvas> 
+					</div> 
+					<br> 
+					<br> 
+				</div>
+			</div>
+		</div> 
+	</main> 
+	<div class="site-footer"> 
+		<footer> 
+		</footer> 
+	</div> 
+
+<script>
+var areas = [];
+    areas.push(['Шея и плечевой пояс', 'img/shoulders.jpg', '97CC64', 11, 11]);
+    areas.push(['Мышцы рук', 'img/arm.jpg', '4569BC', 11, 11]);
+    areas.push(['Грудные мышцы', 'img/chest.jpg', 'F68D38', 11, 11]);
+    areas.push(['Мышцы спины', 'img/back.jpg', 'EA527F', 11, 11]);
+    areas.push(['Мышцы живота', 'img/abs.jpg', '2A8341', 11, 11]);
+    areas.push(['Мышцы ног', 'img/legs.jpg', '77B6E7', 11, 11]);
+    areas.push(['Кардио', 'img/cardio.jpg', 'FFD963', 11, 11]);
+    areas.push(['Лишний вес', 'img/fitbody.jpg', 'A955B8', 11, 11]);
+
+var settings = { areas: areas};
+wheelLife = getWheelLifeInstance(settings);
+
+$(document).ready(function(){
+//    localEvent('wheel-life', 'ready', 'draw', 1, 1);
+
+    wheelLife.draw('wheel-life');
+});
+
+$('#button-clear-areas').click(function(){
+    for (var i = 0; i < areas.length; i++) {
+        areas[i][2] = 11;
+        areas[i][3] = 11;
+    }
+    //wheelLife.onMouseMove({ offsetX: -20, offsetY: -20, type: 'demo'}); // Simulate click
+
+    $(this).hide();
+
+//    localEvent('wheel-life', 'button-clear', 'click', 1, 1);
+
+    return false;
+});
+
+</script> 
+
+</body>
+</html>
