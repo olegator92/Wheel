@@ -29,7 +29,7 @@
 		<div class="page-wrap"> 
 			<div class="row"> 
 				<div class="small-12 column"> 
-					<h1>Balance wheel</h1> 
+					<h1>Workout wheel</h1> 
 					<div class="wheel-life-container"> 
 						<canvas id="wheel-life" width="1800" height="1200" style="cursor: default;">Update browser</canvas> 
 					</div> 
@@ -62,6 +62,7 @@ $(document).ready(function(){
 //    localEvent('wheel-life', 'ready', 'draw', 1, 1);
 
     wheelLife.draw('wheel-life');
+	wheelLife.onMouseMove({offsetX: -1, offsetY: -1, type: 'mousemove'});
 });
 
 $('#button-clear-areas').click(function(){

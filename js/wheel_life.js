@@ -72,7 +72,7 @@ function getWheelLifeInstance(settings)
             wheelLife.todayStr = today.getDate() + '.' + (today.getMonth() + 1 < 10 ? '0' : '') + (today.getMonth() + 1) + '.' + today.getFullYear();
 
             // Preload all images
-            wheelLife.preloadImage('pointer', '/img/pic/pointer.png');
+            //wheelLife.preloadImage('pointer', '/img/pic/pointer.png');
 
             if (wheelLife.scaleCoef > 4) {
                 // Отодвигаем боковые кнопки на телефоне
@@ -80,6 +80,7 @@ function getWheelLifeInstance(settings)
                 $('#button-download-wheel a').css('padding', '5px');
                 $('#button-clear-areas').css('top', '1px').css('left', '1px');
             }
+			wheelLife.onMouseMove({offsetX: -1, offsetY: -1, type: 'mousemove'});
 
         },
 
@@ -170,15 +171,15 @@ function getWheelLifeInstance(settings)
             wheelLife.ctx.save();
 
             // Draw areas names
-            wheelLife.ctx.font = '12pt verdana';
-            var textMargin = 20;
-            if (wheelLife.scaleCoef > 2) {
+            wheelLife.ctx.font = '10pt verdana';
+            var textMargin = 125;
+            /*if (wheelLife.scaleCoef > 2) {
                 wheelLife.ctx.font = '10px verdana';
                 textMargin = 15;
             }
             if (wheelLife.scaleCoef > 4) {
                 textMargin = 2;
-            }
+            }*/
             wheelLife.ctx.textBaseline = "center";
             wheelLife.ctx.shadowColor = "#000000";
             wheelLife.ctx.shadowOffsetX = 1;
@@ -201,18 +202,20 @@ function getWheelLifeInstance(settings)
                 }
                 if (gradBegin > 80 && gradBegin < 120) wheelLife.ctx.textAlign = "center";*/
 				
-				var xImg = Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+80)-50;
-				var yImg = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+80)-50;
-				var xArc = Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+80);
-				var yArc = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+80);
-				/*
-                wheelLife.ctx.fillStyle = '#' + wheelLife.areas[i][2];
-                wheelLife.ctx.fillText(wheelLife.areas[i][0].substr(0, 30), Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin), Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin));
-				*/
+				var xImg = Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65)-50;
+				var yImg = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65)-50;
+				var xArc = Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65);
+				var yArc = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65);
+				
+                /*wheelLife.ctx.fillStyle = '#' + wheelLife.areas[i][2];
+                wheelLife.ctx.fillText(wheelLife.areas[i][0].substr(0, 30), Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin), Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin));*/
+				
 				
 				wheelLife.ctx.save();
 				wheelLife.ctx.beginPath();
 				wheelLife.ctx.arc(xArc, yArc, 50, 0, Math.PI * 2, true);
+				wheelLife.ctx.lineWidth = 3;
+				wheelLife.ctx.strokeStyle = '#' + wheelLife.areas[i][2];
 				wheelLife.ctx.stroke();
 				wheelLife.ctx.fillStyle = "rgb(255, 255, 255)";
 				wheelLife.ctx.fill();
