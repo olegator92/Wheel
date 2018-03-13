@@ -208,8 +208,8 @@ function getWheelLifeInstance(settings)
 				var yArc = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65);
 				
                 /*wheelLife.ctx.fillStyle = '#' + wheelLife.areas[i][2];
-                wheelLife.ctx.fillText(wheelLife.areas[i][0].substr(0, 30), Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin), Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin));*/
-				
+                wheelLife.ctx.fillText(wheelLife.areas[i][0].substr(0, 30), Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin), Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius + textMargin));
+				*/
 				
 				wheelLife.ctx.save();
 				wheelLife.ctx.beginPath();
@@ -217,7 +217,7 @@ function getWheelLifeInstance(settings)
 				wheelLife.ctx.lineWidth = 3;
 				wheelLife.ctx.strokeStyle = '#' + wheelLife.areas[i][2];
 				wheelLife.ctx.stroke();
-				wheelLife.ctx.fillStyle = "rgb(255, 255, 255)";
+				wheelLife.ctx.fillStyle = '#' + wheelLife.areas[i][2];
 				wheelLife.ctx.fill();
 				wheelLife.ctx.closePath();
 				wheelLife.ctx.clip();
