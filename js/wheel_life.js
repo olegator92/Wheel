@@ -30,7 +30,8 @@ function getWheelLifeInstance(settings)
 
         draw: function (canvasId) {
             wheelLife.prepare(canvasId);
-
+			wheelLife.loadWheel();
+			
             if (! wheelLife.isDrawSimple) {
                 $(wheelLife.canvas).bind('mousemove', wheelLife.onMouseMove);
                 $(wheelLife.canvas).bind('click', wheelLife.onMouseMove);
@@ -80,7 +81,7 @@ function getWheelLifeInstance(settings)
                 $('#button-download-wheel a').css('padding', '5px');
                 $('#button-clear-areas').css('top', '1px').css('left', '1px');
             }
-			wheelLife.onMouseMove({offsetX: -1, offsetY: -1, type: 'mousemove'});
+			//wheelLife.onMouseMove({offsetX: -1, offsetY: -1, type: 'mousemove'});
 
         },
 
@@ -98,7 +99,102 @@ function getWheelLifeInstance(settings)
             // Прорисовываем первый раз экран
             if (wheelLife.imagesToLoad < 1) wheelLife.onMouseMove({offsetX: -1, offsetY: -1, type: 'mousemove'}); // Simulate click
         },
+		
+		loadWheel: function()
+		{
+            wheelLife.currentAreaLevel = -1;
 
+            wheelLife.ctx.clearRect(0, 0, wheelLife.width + 10, wheelLife.height + 10);
+            wheelLife.ctx.rect(0, 0, wheelLife.width, wheelLife.height);
+            //wheelLife.ctx.fillStyle = 'antiquewhite';
+			wheelLife.ctx.fillStyle = 'white';
+            wheelLife.ctx.fill();
+			
+            // Draw areas
+            for (var i = 0; i < wheelLife.areas.length; i++) {
+                // half doughnut
+                wheelLife.ctx.beginPath();
+                var gradBegin = i * wheelLife.areaGradWidth - 90 ;
+
+                var radBegin = gradBegin * Math.PI / 180;
+                var radEnd = (gradBegin + wheelLife.areaGradWidth) * Math.PI / 180;
+
+                var areaLevel = wheelLife.areas[i][3];
+                if (areaLevel > 10) areaLevel = 10;
+                var currentRadius = areaLevel * wheelLife.areaLevelWidth;
+
+                // Сколько сфер задано
+                if (wheelLife.areas[i][3] < 11) countAreaClicked++; // Значение задано
+
+                // Fill area
+                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, currentRadius, radBegin, radEnd, false); // outer (filled)
+                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, 0, radBegin, radEnd, true); // outer (unfills it)
+                wheelLife.ctx.fillStyle = '#' + wheelLife.areas[i][2];
+                wheelLife.ctx.fill();
+
+                // Fill area background
+                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, wheelLife.circleRadius, radBegin, radEnd, false); // outer (filled)
+                wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, 0, radBegin, radEnd, true); // outer (unfills it)
+
+                wheelLife.ctx.save();
+
+				wheelLife.ctx.globalAlpha = 0.3;
+				wheelLife.ctx.fill();
+                wheelLife.ctx.restore();
+            }
+
+            // Draw areas circle around
+            wheelLife.ctx.beginPath();
+            wheelLife.ctx.arc(wheelLife.width / 2, wheelLife.height / 2, wheelLife.circleRadius, 0, 360 * Math.PI / 180);
+            wheelLife.ctx.lineWidth = 1;
+            wheelLife.ctx.strokeStyle = '#550000';
+            wheelLife.ctx.save();
+
+            // Draw areas names
+            wheelLife.ctx.font = '10pt verdana';
+            var textMargin = 125;
+
+            wheelLife.ctx.textBaseline = "center";
+            wheelLife.ctx.shadowColor = "#000000";
+            wheelLife.ctx.shadowOffsetX = 1;
+            wheelLife.ctx.shadowOffsetY = 1;
+            wheelLife.ctx.shadowBlur = 0;
+
+            wheelLife.ctx.setTransform(wheelLife.scaleCoef, 0, 0, wheelLife.scaleCoef, 0, 0); // reset current transformation matrix to the identity matrix
+            wheelLife.ctx.translate(wheelLife.width / 2, wheelLife.height / 2);
+			wheelLife.ctx.textAlign = "left";
+			
+			log('---------------------');
+            for (i = 0; i < wheelLife.areas.length; i++) {
+
+                gradBegin = i * wheelLife.areaGradWidth + wheelLife.areaGradWidth / 2 - 90;
+				
+				var xImg = Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65)-50;
+				var yImg = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65)-50;
+				var xArc = Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65);
+				var yArc = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65);
+
+				wheelLife.ctx.save();
+				wheelLife.ctx.beginPath();
+				wheelLife.ctx.arc(xArc, yArc, 50, 0, Math.PI * 2, true);
+				wheelLife.ctx.lineWidth = 3;
+				wheelLife.ctx.strokeStyle = '#' + wheelLife.areas[i][2];
+				wheelLife.ctx.stroke();
+				wheelLife.ctx.fillStyle = '#' + wheelLife.areas[i][2];
+				wheelLife.ctx.fill();
+				wheelLife.ctx.closePath();
+				wheelLife.ctx.clip();
+
+				base_image = new Image();
+				base_image.src = areas[i][1];
+				wheelLife.ctx.drawImage(base_image, xImg, yImg, 100, 100);
+				
+				wheelLife.ctx.restore();
+            }
+            wheelLife.ctx.restore();
+			
+		},
+		
         onMouseMove: function (e) {
             var currentArea = 0; // В какой сфере сейчас мышка
             var countAreaClicked = 0;
