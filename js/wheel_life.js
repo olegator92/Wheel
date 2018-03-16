@@ -173,7 +173,9 @@ function getWheelLifeInstance(settings)
 				var yImg = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65)-50;
 				var xArc = Math.cos(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65);
 				var yArc = Math.sin(gradBegin * Math.PI / 180) * (wheelLife.circleRadius+65);
-
+				
+				
+				
 				wheelLife.ctx.save();
 				wheelLife.ctx.beginPath();
 				wheelLife.ctx.arc(xArc, yArc, 50, 0, Math.PI * 2, true);
@@ -184,7 +186,7 @@ function getWheelLifeInstance(settings)
 				wheelLife.ctx.fill();
 				wheelLife.ctx.closePath();
 				wheelLife.ctx.clip();
-
+				
 				base_image = new Image();
 				base_image.src = areas[i][1];
 				wheelLife.ctx.drawImage(base_image, xImg, yImg, 100, 100);
